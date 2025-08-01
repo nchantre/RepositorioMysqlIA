@@ -56,10 +56,61 @@ def eliminar_cliente(id_cliente):
     cursor.close()
     conn.close()
 
-# Ejemplo de uso
+def menu():
+    while True:
+        print("\n--- Menú de Clientes ---")
+        print("1. Registrar cliente")
+        print("2. Listar clientes")
+        print("3. Editar cliente")
+        print("4. Eliminar cliente")
+        print("5. Salir")
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            cedula = input("Cédula: ")
+            nombre = input("Nombre: ")
+            apellidos = input("Apellidos: ")
+            telefono = input("Teléfono: ")
+            email = input("Email: ")
+            crear_cliente(cedula, nombre, apellidos, telefono, email)
+            print("Cliente registrado correctamente.")
+        elif opcion == "2":
+            clientes = leer_clientes()
+            if clientes:
+                for c in clientes:
+                    print(f"ID: {c['IdCliente']}, Cédula: {c['CedulaCliente']}, Nombre: {c['NombreCliente']} {c['ApellidosCliente']}, Teléfono: {c['TelefonoCliente']}, Email: {c['EmailCliente']}")
+            else:
+                print("No hay clientes registrados.")
+        elif opcion == "3":
+            clientes = leer_clientes()
+            if not clientes:
+                print("No hay clientes para editar.")
+                continue
+            for c in clientes:
+                print(f"ID: {c['IdCliente']}, Nombre: {c['NombreCliente']} {c['ApellidosCliente']}")
+            id_cliente = input("Ingrese el ID del cliente a editar: ")
+            cedula = input("Nueva Cédula: ")
+            nombre = input("Nuevo Nombre: ")
+            apellidos = input("Nuevos Apellidos: ")
+            telefono = input("Nuevo Teléfono: ")
+            email = input("Nuevo Email: ")
+            actualizar_cliente(id_cliente, cedula, nombre, apellidos, telefono, email)
+            print("Cliente actualizado correctamente.")
+        elif opcion == "4":
+            clientes = leer_clientes()
+            if not clientes:
+                print("No hay clientes para eliminar.")
+                continue
+            for c in clientes:
+                print(f"ID: {c['IdCliente']}, Nombre: {c['NombreCliente']} {c['ApellidosCliente']}")
+            id_cliente = input("Ingrese el ID del cliente a eliminar: ")
+            eliminar_cliente(id_cliente)
+            print("Cliente eliminado correctamente.")
+        elif opcion == "5":
+            print("Saliendo...")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
 if __name__ == "__main__":
-    # Crear un cliente
-    crear_cliente('1234567890', 'Juan', 'Pérez', '555-1234', 'juan@example.com')
-    # Leer clientes
-    clientes = leer_clientes()
-    print(clientes)
+    menu()
